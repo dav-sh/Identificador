@@ -24,8 +24,8 @@ public class PanelP extends JPanel{
         b1.setPreferredSize(new Dimension(15,50));
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                l1.setText("Cambie el texto "+ t1.getText());
                 new VerificaTipos(t1.getText());
+                l1.setText("Cambie el texto "+ t1.getText());
             }
         });
 
