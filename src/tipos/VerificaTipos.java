@@ -4,24 +4,34 @@ import java.util.ArrayList;
 
 public class VerificaTipos {
     private String texto;
+    TipoIdentificador[]tipos;
+    String[]textos;
+    ArrayList<TipoIdentificador> verificar = new ArrayList<TipoIdentificador>();
+    ArrayList<String> verificadas = new ArrayList<String>();
+
     int[] numeros = new int[] {0,1,2,3,4,5,6,7,8,9};
     String[] other = new String[] {"[","]","{","}",",",";"};
     String[] abc = new String[] {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+
+    
+    
+    
     public VerificaTipos(String texto) {
         this.texto = texto;
         System.out.println(this.texto + " Vamo a verificar");
         verificar();
     }
 
-    public String[] verificar() {
-        ArrayList<String> verificar = new ArrayList<String>();
+
+
+    public void verificar() {
         String txt = "";
         texto = texto.replace("\n","");
 
         for(int i = 0; i < texto.length(); i++) {
             char c = texto.charAt(i);
             if(String.valueOf(c).equals(" ")){
-                verificar.add(txt);
+                //verificar.add(txt);
                 verificardos(txt);
                 System.out.println(txt + " verified");
                 txt = "";
@@ -30,7 +40,7 @@ public class VerificaTipos {
             }
             else if(i == texto.length()-1){
                 txt = txt + c;
-                verificar.add(txt);
+                //verificar.add(txt);
                 System.out.println(txt + " last text");
                 verificardos(txt);
 
@@ -41,10 +51,9 @@ public class VerificaTipos {
 
             }
         }
+        tipos = verificar.toArray(new TipoIdentificador[verificar.size()]);
+        textos = verificadas.toArray(new String[verificadas.size()]);
 
-        //comparaStrings(verificar.toArray(new String[verificar.size()]));
-
-        return verificar.toArray(new String[verificar.size()]);
     }
 
 
@@ -54,6 +63,7 @@ public class VerificaTipos {
     //un numero decimal lleva punto decimal y solo numeros
 
     public void verificardos(String texto){
+        TipoIdentificador tipo=TipoIdentificador.NADIE;
         boolean tieneNumeros = false;
         boolean tieneLetras = false;
         boolean tieneOtros = false;
@@ -83,27 +93,41 @@ public class VerificaTipos {
                 contador++;
             }
             
-            
-            
         }
         if(tieneNumeros && tieneOtros==false && tieneLetras ==false){
             if(contador==1){
-                System.out.println("Soy un decimal");
-            }else if(contador==0){
-                System.out.println("Soy un entero");
+                //System.out.println("Soy un decimal");
+                verificar.add(TipoIdentificador.DECIMAL);
+                verificadas.add(texto);
+            }else if(contador==0 && texto.length()>2){
+                //System.out.println("Soy un entero");
+                verificar.add(TipoIdentificador.ENTERO);
+                verificadas.add(texto);
+            }else if(contador==0 && texto.length()<=2){
+                verificar.add(TipoIdentificador.ID);
+                verificadas.add(texto);
             }
         }
         else if(tieneNumeros==false && tieneOtros && tieneLetras ==false && contador==0){
-            System.out.println("Soy solo otros");
+            verificar.add(TipoIdentificador.OTROS);
+            verificadas.add(texto);
         }
-        else if(tieneNumeros==false && tieneOtros==false && tieneLetras && contador==0){
-            System.out.println("Soy solo letras");
-        }
+        // else if(tieneNumeros==false && tieneOtros==false && tieneLetras && contador==0){
+        //     verificar.add(TipoIdentificador.LETRAS);
+        //         verificadas.add(texto);
+        // }
         else{
+            tipo = TipoIdentificador.NADIE;
             System.out.println("No soy de nadie, Hubo un error");
         }
-
-
             
+    }
+
+    public TipoIdentificador[] getTipo(){
+        return tipos;
+    }
+
+    public String[] getTextos() {
+        return textos;
     }
 }

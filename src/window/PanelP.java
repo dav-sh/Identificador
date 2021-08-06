@@ -1,8 +1,6 @@
 package src.window;
 import javax.swing.*;
-
-import src.tipos.VerificaTipos;
-
+import src.tipos.*;
 import java.awt.event.*;
 import java.awt.*;
 
@@ -24,8 +22,11 @@ public class PanelP extends JPanel{
         b1.setPreferredSize(new Dimension(15,50));
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new VerificaTipos(t1.getText());
+                VerificaTipos tip = new VerificaTipos(t1.getText());
                 l1.setText("Cambie el texto "+ t1.getText());
+                //tip.getTipo();
+                //tip.getTextos();
+                l1.setText(imprimeLabel(tip.getTipo() , tip.getTextos() ));
             }
         });
 
@@ -38,6 +39,17 @@ public class PanelP extends JPanel{
         l1.setPreferredSize(new Dimension(300,150));
         add(t1);add(b1);add(l1);
         return this;
+    }
+
+    public String imprimeLabel(TipoIdentificador[] tipos, String[] textos){
+        String texto = "<html><body>";
+        for(int i=0; i<tipos.length; i++){
+            texto = texto + "<br>"+ " " +tipos[i].getTipo()+" " + textos[i]+ "<br>";
+
+        }
+        texto = texto + "</body></html>";
+        return texto;
+        
     }
     
 }
