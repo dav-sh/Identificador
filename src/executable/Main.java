@@ -1,7 +1,8 @@
 package src.executable;
+import src.window.*;
 
 public class Main{
     public static void main(String args[]){
-        Identificador start = new Identificador();
+        new PrincipalF();
     }
 }
